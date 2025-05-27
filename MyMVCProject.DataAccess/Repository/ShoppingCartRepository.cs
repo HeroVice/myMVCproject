@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MyMVCProject.DataAccess.Data;
 using MyMVCProject.DataAccess.Repository.IRepository;
 using MyMVCProject.Models;
@@ -16,6 +17,7 @@ namespace MyMVCProject.DataAccess.Repository
         {
             _db = db;
         }
+
         public void Update(ShoppingCart obj)
         {
             _db.ShoppingCarts.Update(obj);

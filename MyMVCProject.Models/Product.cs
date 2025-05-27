@@ -22,8 +22,7 @@ namespace MyMVCProject.Models
         [Required]
         [Range(1, 120, ErrorMessage = "List Price must be between 1 and 120.")]
         public decimal Price { get; set; }
-        [Required]
-        [Range(1, 120, ErrorMessage = "List Price must be between 1 and 120.")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal ListPrice { get; set; }
         [Required]
         public int CategoryId { get; set; }
@@ -35,12 +34,13 @@ namespace MyMVCProject.Models
         [DisplayName("image")]
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
-
         [Range(0, 100)]
         public int? DiscountPercent { get; set; } // İndirim yüzdesi, nullable çünkü indirim olmayabilir
 
         [Range(0, 5.0)]
         public decimal? Rating { get; set; } // 0-5 arası puan, nullable olabilir
-
+        [Required]
+        [DisplayName("Cover Image")]
+        public string CoverImageUrl { get; set; }
     }
 }

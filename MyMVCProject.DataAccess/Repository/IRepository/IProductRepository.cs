@@ -7,8 +7,6 @@ namespace MyMVCProject.DataAccess.Repository.IRepository
         Product GetProductWithImages(int id);
 
         Product GetProductWithCategory(int productId);
-
-
         void Update(Product obj);
     }
 }

@@ -115,7 +115,13 @@ namespace MyMVCProject.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            var viewModel = new ProductShopVM
+            {
+                Product = product,
+                ShoppingCart = new ShoppingCart()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]

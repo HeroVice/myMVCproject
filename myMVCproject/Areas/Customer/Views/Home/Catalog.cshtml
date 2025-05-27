@@ -278,7 +278,7 @@
 				<a href="@Url.Action("Details", "Home", new { area = "Customer", productId = product.Id })" style="text-decoration: none;">
 					<div class="product-row" data-discounted="@(product.DiscountPercent > 0 ? "true" : "false")">
 						<div class="product-image">
-							<img src="@(product.ProductImages?.FirstOrDefault()?.ImageUrl ?? "https://placehold.co/150x150")" alt="@product.Name" />
+							<img src="@(product.CoverImageUrl ?? "https://placehold.co/150x150")" alt="@product.Name" />
 						</div>
 						<div class="product-info">
 							<div class="product-title">@product.Name</div>

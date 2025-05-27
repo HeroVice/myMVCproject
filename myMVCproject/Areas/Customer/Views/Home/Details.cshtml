@@ -1,167 +1,215 @@
-﻿@model Product
+﻿@model MyMVCProject.Models.ViewModels.ProductVM
 
 @{
-    ViewData["Title"] = Model.Name;
+	ViewData["Title"] = Model.Product.Name;
 }
 
 <style>
-    body {
-        background-color: #1b2838;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #c7d5e0;
-    }
+	body {
+		background-color: #1b2838;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		color: #c7d5e0;
+	}
 
-    .details-container {
-        max-width: 1100px;
-        margin: 2rem auto;
-        display: flex;
-        gap: 2rem;
-    }
+	.details-container {
+		max-width: 100%;
+		margin: 2rem auto;
+		display: flex;
+		gap: 2rem;
+	}
 
-    .product-images {
-        flex: 1;
-        background-color: #2a475e;
-        padding: 1rem;
-        border-radius: 8px;
-    }
+	.left-container {
+		flex: 10;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
 
-        .product-images img {
-            width: 100%;
-            height: auto;
-            border-radius: 6px;
-        }
+	.small-cover {
+		width: 200px;
+		height: 300px;
+		border-radius: 8px;
+		overflow: hidden;
+		align-self: center;
+		box-shadow: 0 0 10px rgba(102, 192, 244, 0.6);
+	}
 
-    .product-info {
-        flex: 2;
-        background-color: #2a475e;
-        padding: 1.5rem;
-        border-radius: 8px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+		.small-cover img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 
-    .product-title {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #66c0f4;
-        margin-bottom: 0.5rem;
-    }
+	.carousel-container {
+		flex: 1;
+		background-color: #2a475e;
+		padding: 1rem;
+		border-radius: 8px;
+	}
 
-    .product-meta {
-        font-size: 0.95rem;
-        color: #b8b6b4;
-        margin-bottom: 1rem;
-    }
+	.carousel-inner {
+		width: 100%;
+		height: 550px;
+		border-radius: 6px;
+		overflow: hidden;
+	}
 
-    .product-desc {
-        margin-top: 1.2rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        color: #d6d7d8;
-    }
+		.carousel-inner img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			border-radius: 6px;
+		}
 
-    .price-box {
-        margin-top: 1rem;
-        font-size: 1.3rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
+	.right-container {
+		flex: 3;
+		padding: 1.5rem;
+		border-radius: 8px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		gap: 1rem;
+	}
 
-    .discount {
-        background-color: #4c6b22;
-        color: #a4d007;
-        padding: 6px 10px;
-        border-radius: 4px;
-        font-size: 1rem;
-    }
+	.right-container-base {
+		background-color: #2a475e;
+		flex: 3;
+		padding: 1.5rem;
+		border-radius: 8px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		gap: 1rem;
+	}
 
-    .price-new {
-        color: #a4d007;
-        font-weight: bold;
-    }
+	.cover-right {
+		width: 100%;
+		height: 300px;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 0 10px rgba(102, 192, 244, 0.6);
+	}
 
-    .price-old {
-        text-decoration: line-through;
-        color: #b8b6b4;
-        font-size: 1rem;
-    }
+		.cover-right img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 
-    .btn-buy {
-        background-color: #66c0f4;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        font-size: 1.1rem;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-top: 2rem;
-        width: 200px;
-        transition: background-color 0.3s ease;
-        align-self: flex-start;
-    }
+	.product-meta {
+		display: none; /* başlangıçta gizli */
+		font-size: 0.95rem;
+		color: #b8b6b4;
+		margin-top: 1rem;
+	}
 
-        .btn-buy:hover {
-            background-color: #417a9b;
-        }
+	.btn-group {
+		display: flex;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
 
-    .back-button {
-        display: inline-block;
-        margin: 2rem auto 0;
-        padding: 10px 20px;
-        background-color: #66c0f4;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 4px;
-    }
+	.btn-buy, .btn-wishlist {
+		flex: 1;
+		padding: 12px 0;
+		font-size: 1.1rem;
+		border-radius: 6px;
+		cursor: pointer;
+		border: none;
+		transition: background-color 0.3s ease;
+		color: white;
+		text-align: center;
+	}
 
-        .back-button:hover {
-            background-color: #417a9b;
-        }
+	.btn-buy {
+		background-color: #66c0f4;
+	}
+
+		.btn-buy:hover {
+			background-color: #417a9b;
+		}
+
+	.btn-wishlist {
+		background-color: #4c6b22;
+	}
+
+		.btn-wishlist:hover {
+			background-color: #3e5418;
+		}
+
+	.product-desc {
+		margin-top: 2rem;
+		font-size: 1rem;
+		line-height: 1.5;
+		color: #d6d7d8;
+	}
 </style>
 
 <div class="details-container">
-    <div class="product-images">
-        <img src="@(
-            Model.ProductImages?.FirstOrDefault()?.ImageUrl ?? "https://placehold.co/500x300"
-        )" alt="@Model.Name" />
-    </div>
+	<div class="left-container">
+		<div class="carousel-container">
+			@if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count > 0)
+			{
+				<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+					<div class="carousel-indicators">
+						@foreach (var imageWithIndex in Model.Product.ProductImages.Select((image, index) => new { Image = image, Index = index }))
+						{
+							<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@imageWithIndex.Index" class="@(imageWithIndex.Index == 0 ? "active" : "")" aria-current="true" aria-label="Slide @(imageWithIndex.Index + 1)"></button>
+						}
+					</div>
+					<div class="carousel-inner">
+						@foreach (var imageWithIndex in Model.Product.ProductImages.Select((image, index) => new { Image = image, Index = index }))
+						{
+							<div class="@(imageWithIndex.Index == 0 ? "carousel-item active" : "carousel-item")">
+								<img src="@imageWithIndex.Image.ImageUrl" class="d-block w-100" alt="Product Image">
+							</div>
+						}
+					</div>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+			}
+			else
+			{
+				<img src="/images/default.png" class="img-fluid rounded-3 shadow-sm" alt="Default Image" />
+			}
+			<button class="btn-wishlist" onclick="alert('İstek listesine eklendi!')">İstek Listesine Ekle</button>
 
-    <div class="product-info">
-        <div>
-            <div class="product-title">@Model.Name</div>
-            <div class="product-meta">
-                Publisher: <strong>@Model.Publisher</strong> <br />
-                Category: <strong>@(Model.Category?.Name ?? "Unknown")</strong> <br />
-                Year: <strong>@Model.PublishDate</strong>
-            </div>
+		</div>
+	</div>
 
-            @if (Model.DiscountPercent > 0)
-            {
-                <div class="price-box">
-                    <div class="discount">-@Model.DiscountPercent%</div>
-                    <div class="price-new">$@(Model.Price * (100 - Model.DiscountPercent) / 100)</div>
-                    <div class="price-old">$@Model.Price</div>
-                </div>
-            }
-            else
-            {
-                <div class="price-box">
-                    <div class="price-new">$@Model.Price</div>
-                </div>
-            }
+	<div class="right-container-base">
+		<div class="cover-right">
+			<img src="@(Model.Product.CoverImageUrl ?? "/images/default.png")" alt="Cover Image" />
+		</div>
 
-            <div class="product-desc">
-                <h4>Description</h4>
-                <p>@Model.Description</p>
-            </div>
-        </div>
-
-        <button class="btn-buy" onclick="alert('Satın alma işlemi burada başlayacak!')">Satın Al</button>
-    </div>
+		<div class="product-meta">
+			<p>Publisher: <strong>@Model.Product.Publisher</strong></p>
+			<p>Category: <strong>@(Model.Product.Category?.Name ?? "Unknown")</strong></p>
+			<p>Release Date: <strong>@Model.Product.PublishDate.ToString("yyyy")</strong></p>
+		</div>
+	</div>
 </div>
 
-<div style="text-align:center;">
-    <a href="@Url.Action("Index", "Home", new { area = "Customer" })" class="back-button">← Back to Store</a>
+<div class="details-container">
+	<div class="left-container">
+		<div class="carousel-container">
+			<div class="btn-group">
+				<p>Price: <strong>@Model.Product.ListPrice</strong></p>
+				<button class="btn-buy" onclick="alert('Satın alma işlemi burada başlayacak!')">Satın Al</button>
+			</div>
+		</div>
+		<div class="product-desc">
+			<h4>Açıklama</h4>
+			<p>@Model.Product.Description</p>
+		</div>
+	</div>
+	<div class="right-container">
+	</div>
 </div>

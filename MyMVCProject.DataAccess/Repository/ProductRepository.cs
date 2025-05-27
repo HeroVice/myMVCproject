@@ -18,6 +18,7 @@ namespace MyMVCProject.DataAccess.Repository
         {
             _db = db;
         }
+
         public Product GetProductWithImages(int id)
         {
             return _db.Products
@@ -32,7 +33,6 @@ namespace MyMVCProject.DataAccess.Repository
                 .Include(p => p.ProductImages)
                 .FirstOrDefault(p => p.Id == productId);
         }
-
 
         public void Update(Product obj)
         {
