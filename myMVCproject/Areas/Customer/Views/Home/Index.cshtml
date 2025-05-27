@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Product>
+
+<style>
+	.product-image {
+		width: 100%;
+		height: 300px; /* İstediğin sabit yükseklik */
+		object-fit: cover; /* Fotoğrafı kırparak sığdırır, oran korur */
+		border-radius: 10px;
+	}
+</style>
+
+<div class="row pb-3">
+	@foreach (var product in Model)
+	{
+		<div class="col-lg-3 col-sm-6">
+			<div class="row p-2">
+				<div class="col-12 p-1">
+					<div class="card border-0 p-3 shadow border-top border-5 rounder">
+						@if (product.ProductImages != null && product.ProductImages.Count() > 0)
+						{
+							<img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded product-image" />
+						}
+						else
+						{
+							<img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+						}
+						<div class="card-body pb-0">
+							<div class="pl-1">
+								<p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.Name</p>
+								<p class="card-title text-warning text-center">by <b>@product.Publisher</b></p>
+							</div>
+							<div class="pl-1">
+								<p class="text-dark opacity-75 text-center">
+									Price:
+									<span>
+										$@product.Price
+									</span>
+								</p>
+							</div>
+						</div>
+						<div>
+							<a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient borde-0 form-control">
+								Details
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>

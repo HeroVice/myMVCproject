@@ -1,0 +1,167 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<style>
+    body {
+        background-color: #1b2838;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #c7d5e0;
+    }
+
+    .details-container {
+        max-width: 1100px;
+        margin: 2rem auto;
+        display: flex;
+        gap: 2rem;
+    }
+
+    .product-images {
+        flex: 1;
+        background-color: #2a475e;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+        .product-images img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+
+    .product-info {
+        flex: 2;
+        background-color: #2a475e;
+        padding: 1.5rem;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .product-title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #66c0f4;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-meta {
+        font-size: 0.95rem;
+        color: #b8b6b4;
+        margin-bottom: 1rem;
+    }
+
+    .product-desc {
+        margin-top: 1.2rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #d6d7d8;
+    }
+
+    .price-box {
+        margin-top: 1rem;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .discount {
+        background-color: #4c6b22;
+        color: #a4d007;
+        padding: 6px 10px;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .price-new {
+        color: #a4d007;
+        font-weight: bold;
+    }
+
+    .price-old {
+        text-decoration: line-through;
+        color: #b8b6b4;
+        font-size: 1rem;
+    }
+
+    .btn-buy {
+        background-color: #66c0f4;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 2rem;
+        width: 200px;
+        transition: background-color 0.3s ease;
+        align-self: flex-start;
+    }
+
+        .btn-buy:hover {
+            background-color: #417a9b;
+        }
+
+    .back-button {
+        display: inline-block;
+        margin: 2rem auto 0;
+        padding: 10px 20px;
+        background-color: #66c0f4;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+
+        .back-button:hover {
+            background-color: #417a9b;
+        }
+</style>
+
+<div class="details-container">
+    <div class="product-images">
+        <img src="@(
+            Model.ProductImages?.FirstOrDefault()?.ImageUrl ?? "https://placehold.co/500x300"
+        )" alt="@Model.Name" />
+    </div>
+
+    <div class="product-info">
+        <div>
+            <div class="product-title">@Model.Name</div>
+            <div class="product-meta">
+                Publisher: <strong>@Model.Publisher</strong> <br />
+                Category: <strong>@(Model.Category?.Name ?? "Unknown")</strong> <br />
+                Year: <strong>@Model.PublishDate</strong>
+            </div>
+
+            @if (Model.DiscountPercent > 0)
+            {
+                <div class="price-box">
+                    <div class="discount">-@Model.DiscountPercent%</div>
+                    <div class="price-new">$@(Model.Price * (100 - Model.DiscountPercent) / 100)</div>
+                    <div class="price-old">$@Model.Price</div>
+                </div>
+            }
+            else
+            {
+                <div class="price-box">
+                    <div class="price-new">$@Model.Price</div>
+                </div>
+            }
+
+            <div class="product-desc">
+                <h4>Description</h4>
+                <p>@Model.Description</p>
+            </div>
+        </div>
+
+        <button class="btn-buy" onclick="alert('Satın alma işlemi burada başlayacak!')">Satın Al</button>
+    </div>
+</div>
+
+<div style="text-align:center;">
+    <a href="@Url.Action("Index", "Home", new { area = "Customer" })" class="back-button">← Back to Store</a>
+</div>

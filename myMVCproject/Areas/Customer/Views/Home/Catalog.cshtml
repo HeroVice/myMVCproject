@@ -1,0 +1,393 @@
+﻿@model MyMVCProject.Models.ViewModels.ProductCatalogVM
+
+@{
+	ViewData["Title"] = "Product Catalog";
+}
+<style>
+	.rating-icon {
+		font-size: 1.8rem;
+		padding: 5px;
+		border-radius: 6%;
+		border-collapse:collapse;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		transition: transform 0.2s ease, background-color 0.3s ease;
+	}
+
+		.rating-icon.positive {
+			background-color: #0f5132; /* Yeşilimsi */
+			color: #d1e7dd;
+		}
+
+		.rating-icon.neutral {
+			background-color: #664d03; /* Sarı */
+			color: #fff3cd;
+		}
+
+		.rating-icon.negative {
+			background-color: #842029; /* Kırmızımsı */
+			color: #f8d7da;
+		}
+
+		.rating-icon:hover {
+			transform: scale(1.2);
+			cursor: default;
+		}
+
+	.filter-group input[type="text"] {
+		width: 100%;
+		padding: 6px 8px;
+		border-radius: 4px;
+		border: none;
+		background-color: #2a475e;
+		color: #c6d4df;
+		font-size: 0.95rem;
+	}
+
+	.catalog-wrapper {
+		max-width: 1400px;
+		margin: 2rem auto;
+		padding: 0 1rem;
+		display: flex;
+		justify-content: space-between;
+		gap: 2rem;
+	}
+
+	.products-list {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.filter-panel {
+		width: 260px;
+		background-color: #1b2838;
+		padding: 1.5rem;
+		border-radius: 8px;
+		color: #c6d4df;
+		box-shadow: 0 0 10px rgba(0,0,0,0.5);
+		flex-shrink: 0;
+	}
+
+		.filter-panel h3 {
+			margin-top: 0;
+			margin-bottom: 1rem;
+			border-bottom: 1px solid #2a475e;
+			padding-bottom: 0.5rem;
+			font-size: 1.2rem;
+		}
+
+	.filter-group {
+		margin-bottom: 1.2rem;
+	}
+
+		.filter-group label {
+			display: block;
+			margin-bottom: 0.3rem;
+			font-weight: 600;
+			color: #c6d4df;
+		}
+
+		.filter-group input,
+		.filter-group select {
+			width: 100%;
+			padding: 6px 8px;
+			border-radius: 4px;
+			border: none;
+			background-color: #2a475e;
+			color: #c6d4df;
+		}
+
+	.sort-bar {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1rem;
+		color: #c6d4df;
+	}
+
+		.sort-bar select {
+			background-color: #2a475e;
+			color: #c6d4df;
+			border: none;
+			padding: 6px 10px;
+			border-radius: 4px;
+		}
+
+	.product-row {
+		display: flex;
+		background-color: #1b2838;
+		border-radius: 10px;
+		box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+		overflow: hidden;
+		padding: 1rem;
+		align-items: center;
+		gap: 1rem;
+		transition: background-color 0.3s ease;
+	}
+
+		.product-row:hover {
+			background-color: #2a475e;
+		}
+
+	.product-image {
+		width: 150px;
+		height: 150px;
+		background-color: #2a475e;
+		border-radius: 8px;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+		.product-image img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+	.product-info {
+		flex: 1;
+	}
+
+	.product-title {
+		font-size: 1.2rem;
+		font-weight: bold;
+		color: #ecf0f1;
+	}
+
+	.product-publisher {
+		font-size: 0.95rem;
+		color: #95a5a6;
+	}
+
+	.price-row {
+		font-weight: bold;
+		font-size: 1.1rem;
+		text-align: right;
+		min-width: 130px;
+		color: #27ae60;
+	}
+
+	.discount-badge {
+		background-color: #e74c3c;
+		color: white;
+		padding: 4px 8px;
+		border-radius: 4px;
+		font-size: 0.9rem;
+		margin-left: 10px;
+	}
+
+	.filter-panel button {
+		width: 100%;
+		padding: 10px 0;
+		border: none;
+		border-radius: 6px;
+		background: linear-gradient(135deg, #5c7e10, #7eba3f);
+		color: #ffffff;
+		font-weight: 700;
+		font-size: 1rem;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	}
+
+		.filter-panel button:hover {
+			background: linear-gradient(135deg, #7eba3f, #a2d149);
+			transform: translateY(-1px);
+			box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+		}
+
+
+	@@media (max-width: 768px) {
+		.catalog-wrapper {
+			flex-direction: column;
+		}
+
+		.filter-panel {
+			width: 100%;
+		}
+
+		.product-row {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.product-image {
+			width: 100%;
+			height: auto;
+		}
+
+		.price-row {
+			text-align: left;
+		}
+	}
+
+	.search-row {
+		display: flex;
+		background-color: #142434;
+		border-radius: 10px;
+		box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+		overflow: hidden;
+		padding: 1rem;
+		align-items: center;
+		gap: 1rem;
+		transition: background-color 0.3s ease;
+	}
+
+	a {
+		color: inherit;
+	}
+
+		a:hover {
+			text-decoration: none;
+		}
+
+</style>
+
+<div class="catalog-wrapper">
+	<section class="products-list">
+		<div class="search-row" style="display: flex;">
+			<div class="sort-bar" style="flex:5">
+				<label for="sortOrder">Sort by:</label>
+				<select id="sortOrder">
+					<option selected disabled>--Select--</option>
+					<option value="name_asc">Name A-Z</option>
+					<option value="name_desc">Name Z-A</option>
+					<option value="price_asc">Price Low to High</option>
+					<option value="price_desc">Price High to Low</option>
+				</select>
+			</div>
+			<div class="filter-group">
+				<input type="text" id="searchTerm" name="searchTerm" value="@Model.SearchTerm" placeholder="Oyun ara..." />
+			</div>
+
+		</div>
+
+		@if (!Model.Products.Any())
+		{
+			<div>No products found.</div>
+		}
+		else
+		{
+			@foreach (var product in Model.Products)
+			{
+				<a href="@Url.Action("Details", "Home", new { area = "Customer", productId = product.Id })" style="text-decoration: none;">
+					<div class="product-row" data-discounted="@(product.DiscountPercent > 0 ? "true" : "false")">
+						<div class="product-image">
+							<img src="@(product.ProductImages?.FirstOrDefault()?.ImageUrl ?? "https://placehold.co/150x150")" alt="@product.Name" />
+						</div>
+						<div class="product-info">
+							<div class="product-title">@product.Name</div>
+							<div class="product-publisher">@product.Publisher</div>
+						</div>
+							@if (product.Rating != null)
+							{
+								if (product.Rating >= 3.5m)
+								{
+									<div>
+									<i class="bi bi-hand-thumbs-up rating-icon positive" style=""></i>
+									</div>
+								}
+								else if (product.Rating >= 2.5m)
+								{
+									<div class="" style="">
+										<i class="bi bi-dash-lg rating-icon neutral"></i>
+									</div>
+								}
+								else
+								{
+									<div class="" style="">
+										<i class="bi bi-hand-thumbs-down rating-icon negative"></i>
+									</div>
+								}
+							}
+						<div style="display: flex; padding: 1rem; align-items: center;">
+							@if (product.DiscountPercent > 0)
+							{
+								<span class="discount-badge">@($"{product.DiscountPercent}% OFF")</span>
+								<div class="price-row">
+									<div>
+										<span class="text-muted text-decoration-line-through me-2">$@product.Price</span>
+									</div>
+									<div>
+										<span class="text-danger">$@product.ListPrice</span>
+									</div>
+								</div>
+							}
+							else
+							{
+								<span class="">$@product.Price</span>
+							}
+						</div>
+					</div>
+				</a>
+			}
+
+		}
+	</section>
+
+	<aside class="filter-panel">
+		<h3>Filters</h3>
+		<form method="get" asp-action="Catalog">
+			<div class="flex">
+				<input type="checkbox" id="specialOffers" />
+				<label for="specialOffers">Specials Offer</label>
+			</div>
+			<div class="filter-group">
+				<label for="category">Category</label>
+				<select id="category" name="categoryId">
+					<option value="">All Categories</option>
+					@foreach (var cat in Model.Categories)
+					{
+						<option value="@cat.Id@(Model.SelectedCategoryId == cat.Id ? "selected" : "")">@cat.Name</option>
+					}
+				</select>
+			</div>
+
+			<div class="filter-group">
+				<label for="publisher">Publisher</label>
+				<input type="text" id="publisher" name="publisher" value="@Model.Publisher" />
+			</div>
+
+			<div class="filter-group">
+				<label for="minPrice">Min Price ($)</label>
+				<input type="number" step="0.01" name="minPrice" value="@(Model.MinPrice?.ToString() ?? "")" />
+			</div>
+
+			<div class="filter-group">
+				<label for="maxPrice">Max Price ($)</label>
+				<input type="number" step="0.01" name="maxPrice" value="@(Model.MaxPrice?.ToString() ?? "")" />
+			</div>
+
+			<button type="submit">Apply Filters</button>
+		</form>
+	</aside>
+</div>
+
+<script>
+	document.getElementById('specialOffers').addEventListener('change', function () {
+		const showOnlyDiscounted = this.checked;
+		document.querySelectorAll('.product-row').forEach(row => {
+			const isDiscounted = row.getAttribute('data-discounted') === 'true';
+			row.style.display = (showOnlyDiscounted && !isDiscounted) ? 'none' : '';
+		});
+	});
+
+
+		document.getElementById('sortOrder').addEventListener('change', function () {
+		const selectedSort = this.value;
+		const url = new URL(window.location.href);
+
+		// Yeni sıralama parametresini ayarla
+		url.searchParams.set('sortOrder', selectedSort);
+
+		// Sayfayı yeni URL ile yeniden yükle
+		window.location.href = url.toString();
+	});
+
+</script>
+
