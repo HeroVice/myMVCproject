@@ -52,78 +52,45 @@ namespace MyMVCProject.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Upsert(ProductVM productVM, IFormFile? cover, List<IFormFile>? files)
         {
-            if (!ModelState.IsValid)
-            {
-                productVM.CategoryList = _unitOfWork.Category
-                    .GetAll().Select(x => new SelectListItem
-                    {
-                        Text = x.Name,
-                        Value = x.Id.ToString()
-                    });
-                return View(productVM);
-            }
-
             string wwwRootPath = _webHostEnvironment.WebRootPath;
 
-            // CREATE
-            if (productVM.Product.Id == 0)
+            try
             {
-                _unitOfWork.Product.Add(productVM.Product);
-                _unitOfWork.Save();
-            }
-            else
-            {
-                // UPDATE
-                var productFromDb = _unitOfWork.Product.Get(p => p.Id == productVM.Product.Id);
-                if (productFromDb == null)
+                // CREATE
+                if (productVM.Product.Id == 0)
                 {
-                    return NotFound();
+                    _unitOfWork.Product.Add(productVM.Product);
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    // UPDATE
+                    var productFromDb = _unitOfWork.Product.Get(p => p.Id == productVM.Product.Id);
+                    if (productFromDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    productFromDb.Name = productVM.Product.Name;
+                    productFromDb.Description = productVM.Product.Description;
+                    productFromDb.Price = productVM.Product.Price;
+                    productFromDb.PublishDate = productVM.Product.PublishDate;
+                    productFromDb.Publisher = productVM.Product.Publisher;
+                    productFromDb.CategoryId = productVM.Product.CategoryId;
+
+                    _unitOfWork.Product.Update(productFromDb);
+                    _unitOfWork.Save();
+
+                    productVM.Product = productFromDb;
                 }
 
-                productFromDb.Name = productVM.Product.Name;
-                productFromDb.Description = productVM.Product.Description;
-                productFromDb.Price = productVM.Product.Price;
-                productFromDb.PublishDate = productVM.Product.PublishDate;
-                productFromDb.Publisher = productVM.Product.Publisher;
-                productFromDb.CategoryId = productVM.Product.CategoryId;
-
-                _unitOfWork.Product.Update(productFromDb);
-                _unitOfWork.Save();
-
-                productVM.Product = productFromDb; // referans güncelle
-            }
-
-            // COVER IMAGE
-            if (cover != null)
-            {
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(cover.FileName);
-                string productPath = Path.Combine("images", "products", "CoverProduct-" + productVM.Product.Id);
-                string finalPath = Path.Combine(wwwRootPath, productPath);
-
-                if (!Directory.Exists(finalPath))
+                // COVER IMAGE
+                if (cover != null)
                 {
-                    Directory.CreateDirectory(finalPath);
-                }
-
-                string filePath = Path.Combine(finalPath, fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    cover.CopyTo(stream);
-                }
-
-                productVM.Product.CoverImageUrl = Path.Combine("/", productPath, fileName).Replace("\\", "/");
-                _unitOfWork.Product.Update(productVM.Product);
-                _unitOfWork.Save();
-            }
-
-            // GALLERY IMAGES
-            if (files != null && files.Count > 0)
-            {
-                foreach (var item in files)
-                {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(item.FileName);
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(cover.FileName);
                     string productPath = Path.Combine("images", "products", "CoverProduct-" + productVM.Product.Id);
                     string finalPath = Path.Combine(wwwRootPath, productPath);
 
@@ -135,24 +102,55 @@ namespace MyMVCProject.Areas.Admin.Controllers
                     string filePath = Path.Combine(finalPath, fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        item.CopyTo(stream);
+                        cover.CopyTo(stream);
                     }
 
-                    var productImage = new ProductImage
-                    {
-                        ProductId = productVM.Product.Id,
-                        ImageUrl = Path.Combine("/", productPath, fileName).Replace("\\", "/")
-                    };
-
-                    _unitOfWork.ProductImage.Add(productImage);
+                    productVM.Product.CoverImageUrl = Path.Combine("/", productPath, fileName).Replace("\\", "/");
+                    _unitOfWork.Product.Update(productVM.Product);
+                    _unitOfWork.Save();
                 }
-                _unitOfWork.Save();
+
+                // GALLERY IMAGES
+                if (files != null && files.Count > 0)
+                {
+                    foreach (var item in files)
+                    {
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(item.FileName);
+                        string productPath = Path.Combine("images", "products", "Product-" + productVM.Product.Id);
+                        string finalPath = Path.Combine(wwwRootPath, productPath);
+
+                        if (!Directory.Exists(finalPath))
+                        {
+                            Directory.CreateDirectory(finalPath);
+                        }
+
+                        string filePath = Path.Combine(finalPath, fileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            item.CopyTo(stream);
+                        }
+
+                        var productImage = new ProductImage
+                        {
+                            ProductId = productVM.Product.Id,
+                            ImageUrl = Path.Combine("/", productPath, fileName).Replace("\\", "/")
+                        };
+
+                        _unitOfWork.ProductImage.Add(productImage);
+                    }
+                    _unitOfWork.Save();
+                }
+
+                TempData["success"] = "Product saved successfully!";
+                return RedirectToAction(nameof(Index));
             }
-
-            TempData["success"] = "Product saved successfully!";
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                Console.WriteLine("Hata: " + ex.Message);
+                TempData["error"] = "Bir hata oluştu.";
+                return View(productVM);
+            }
         }
-
 
 
         [HttpPost]

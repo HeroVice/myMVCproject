@@ -47,6 +47,7 @@ namespace MyMVCProject.DataAccess.Repository
                 {
                     objFromDb.ProductImages = obj.ProductImages;
                 }
+                objFromDb.CoverImageUrl = obj.CoverImageUrl;
             }
         }
     }

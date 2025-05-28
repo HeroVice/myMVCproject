@@ -39,7 +39,6 @@ namespace MyMVCProject.Models
 
         [Range(0, 5.0)]
         public decimal? Rating { get; set; } // 0-5 arası puan, nullable olabilir
-        [Required]
         [DisplayName("Cover Image")]
         public string CoverImageUrl { get; set; }
     }

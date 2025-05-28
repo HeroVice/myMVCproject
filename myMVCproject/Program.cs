@@ -4,27 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using MyMVCProject.DataAccess.Repository.IRepository;
 using MyMVCProject.DataAccess.Repository;
 using System.Globalization;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MyMVCProject.Utility;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-var cultureInfo = new CultureInfo("tr-TR");
-CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("tr-TR");
-    options.SupportedCultures = new List<CultureInfo> { cultureInfo };
-    options.SupportedUICultures = new List<CultureInfo> { cultureInfo };
-});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => {
@@ -33,6 +24,8 @@ builder.Services.AddSession(options => {
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

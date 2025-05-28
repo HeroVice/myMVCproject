@@ -18,6 +18,7 @@ namespace MyMVCProject.DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<CompanyRequest> CompanyRequests { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
