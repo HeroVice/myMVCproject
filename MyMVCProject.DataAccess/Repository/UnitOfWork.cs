@@ -15,6 +15,8 @@ namespace MyMVCProject.DataAccess.Repository
         public ICategoryRepository Category { get; private set; }
         public IProductImageRepository ProductImage { get; private set; }
         public IShoppingCartRepository ShoppingCart { get; private set; }
+        public ICompanyRepository Company { get; private set; }
+        public IOrderDetailRepository OrderDetail { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -23,6 +25,8 @@ namespace MyMVCProject.DataAccess.Repository
             Category = new CategoryRepository(_db);
             ProductImage = new ProductImageRepository(_db);
             ShoppingCart = new ShoppingCartRepository(_db);
+            Company = new CompanyRepository(_db);
+            OrderDetail = new OrderDetailRepository(_db);
         }
 
         public void Save()

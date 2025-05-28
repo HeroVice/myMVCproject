@@ -9,17 +9,15 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace MyMVCProject.Models
 {
-    public class ShoppingCart
+    public class OrderDetail
     {
         public int Id { get; set; }
+        public int OrderId { get; set; }
+        [Required]
         public int ProductId { get; set; }
+        public double Price { get; set; }
         [ForeignKey("ProductId")]
         [ValidateNever]
         public Product Product { get; set; }
-        [ForeignKey("ApplicationUserId")]
-        [ValidateNever]
-        public string ApplicationUserId { get; set; }
-        [NotMapped]
-        public double Price { get; set; }
     }
 }

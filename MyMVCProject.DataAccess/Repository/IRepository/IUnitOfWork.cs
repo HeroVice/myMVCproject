@@ -11,8 +11,9 @@ namespace MyMVCProject.DataAccess.Repository.IRepository
         IProductRepository Product { get; }
         ICategoryRepository Category { get; }
         IProductImageRepository ProductImage { get; }
-
+        ICompanyRepository Company { get; }
         IShoppingCartRepository ShoppingCart { get; }
+        IOrderDetailRepository OrderDetail { get; }
 
         void Save();
     }

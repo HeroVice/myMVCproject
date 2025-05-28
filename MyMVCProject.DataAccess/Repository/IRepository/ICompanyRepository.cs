@@ -7,9 +7,8 @@ using MyMVCProject.Models;
 
 namespace MyMVCProject.DataAccess.Repository.IRepository
 {
-    public interface IProductImageRepository : IRepository<ProductImage>
+    public interface ICompanyRepository : IRepository<Company>
     {
-        
-        void Update(ProductImage obj);
+        void Update(Company obj);
     }
 }

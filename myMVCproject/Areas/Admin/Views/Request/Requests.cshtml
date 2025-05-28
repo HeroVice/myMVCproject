@@ -3,53 +3,59 @@
 @model List<MyMVCProject.Models.CompanyRequest>
 
 @{
-    ViewData["Title"] = "Company Role Başvuruları";
+	ViewData["Title"] = "Company Role Başvuruları";
 }
 
+@TempData["Error"]
+
+<br />
 <h2>@ViewData["Title"]</h2>
+<br />
 
 @if (!Model.Any())
 {
-    <p>Onay bekleyen başvuru yok.</p>
+	<p>Onay bekleyen başvuru yok.</p>
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-dark">
             <tr>
-                <th>Kullanıcı ID</th>
+                <th>Firma Adı</th>
                 <th>Kullanıcı Email</th>
+                <th>ID Numarası</th>
                 <th>Başvuru Tarihi</th>
-                <th>Onayla</th>
+                <th class="text-center" style="width: 200px;">Durum</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var request in Model)
             {
                 <tr>
-                    <td>@request.UserId</td>
-                    <td>
-                        @{
-                            var user = await UserManager.FindByIdAsync(request.UserId);
-                            if (user != null)
-                            {
-                                @user.Email
-                            }
-                            else
-                            {
-                                <em>Kullanıcı bulunamadı</em>
-                            }
-                        }
-                    </td>
-                    <td>@request.RequestDate.ToString("g")</td>
-                    <td>
-                        <form asp-action="ApproveRequest" method="post" asp-controller="Request" asp-area="Admin">
-                            <input type="hidden" name="id" value="@request.Id" />
-                            <button type="submit" class="btn btn-success btn-sm">Onayla</button>
-                        </form>
+                    <td>@request.CompanyName</td>
+                    <td>@request.Email</td>
+                    <td>@request.IDN</td>
+                    <td>@request.RequestDate.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                            <form asp-action="ApproveRequest" method="post" asp-controller="Request" asp-area="Admin" class="m-0 p-0">
+                                <input type="hidden" name="id" value="@request.Id" />
+                                <button type="submit" class="btn btn-sm btn-success" title="Onayla">
+                                    <i class="bi bi-check-lg"></i> Onayla
+                                </button>
+                            </form>
+                            <form asp-action="DisapproveRequest" method="post" asp-controller="Request" asp-area="Admin" class="m-0 p-0">
+                                <input type="hidden" name="id" value="@request.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger" title="Reddet">
+                                    <i class="bi bi-x-lg"></i> Reddet
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
+
 }

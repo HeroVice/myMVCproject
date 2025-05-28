@@ -43,6 +43,7 @@ namespace MyMVCProject.DataAccess.Repository
                 objFromDb.Description = obj.Description;
                 objFromDb.Price = obj.Price;
                 objFromDb.CategoryId = obj.CategoryId;
+                objFromDb.DiscountPercent = obj.DiscountPercent;
                 if (obj.ProductImages != null)
                 {
                     objFromDb.ProductImages = obj.ProductImages;
