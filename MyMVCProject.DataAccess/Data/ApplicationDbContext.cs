@@ -23,6 +23,7 @@ namespace MyMVCProject.DataAccess.Data
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Library> Libraries { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

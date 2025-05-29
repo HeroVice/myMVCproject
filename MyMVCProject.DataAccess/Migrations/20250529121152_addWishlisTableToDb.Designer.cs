@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyMVCProject.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using MyMVCProject.DataAccess.Data;
 namespace MyMVCProject.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250529121152_addWishlisTableToDb")]
+    partial class addWishlisTableToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,7 +246,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.Company", b =>
@@ -264,7 +267,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.CompanyRequest", b =>
@@ -314,7 +317,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CompanyRequests", (string)null);
+                    b.ToTable("CompanyRequests");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.Library", b =>
@@ -341,7 +344,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Libraries", (string)null);
+                    b.ToTable("Libraries");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.OrderDetail", b =>
@@ -376,7 +379,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.Product", b =>
@@ -424,7 +427,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.ProductImage", b =>
@@ -446,7 +449,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages", (string)null);
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.Review", b =>
@@ -480,7 +483,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.ShoppingCart", b =>
@@ -507,7 +510,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingCarts", (string)null);
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.Wishlist", b =>
@@ -534,7 +537,7 @@ namespace MyMVCProject.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Wishlists", (string)null);
+                    b.ToTable("Wishlists");
                 });
 
             modelBuilder.Entity("MyMVCProject.Models.ApplicationUser", b =>

@@ -1,0 +1,39 @@
+﻿@model List<MyMVCProject.Models.ViewModels.ProductShopVM>
+
+@{
+    ViewData["Title"] = "Wishlist";
+}
+
+<h2 class="mb-4">İstek Listeniz</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        Henüz istek listenizde ürün bulunmamaktadır.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <a href="@Url.Action("Details", "Home", new { area = "Customer", productId = item.Product.Id })" style="text-decoration: none; color: inherit;">
+                        <img src="@item.Product.CoverImageUrl" class="card-img-top" alt="@item.Product.Name" style="height: 200px; object-fit: cover;" />
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Product.Name</h5>
+                            <p class="card-text text-muted">@item.Product.Price ₺</p>
+                        </div>
+                    </a>
+                    <div class="card-footer bg-transparent border-0 text-end">
+                        <form asp-action="RemoveWishlist" method="post" class="d-inline">
+                            <input type="hidden" name="productId" value="@item.Product.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Listeden Kaldır</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

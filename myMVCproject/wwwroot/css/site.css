@@ -20,3 +20,169 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.discounted-price {
+    color: #dc3545;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.discount-badge {
+    display: inline-block;
+    background-color: #a52a2a; /* bordo-kýrmýzý ton, indirim için çarpýcý */
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.original-price {
+    color: #6c757d;
+    text-decoration: line-through;
+    font-size: 1.3rem;
+    margin-right: 0.5rem;
+}
+
+
+body {
+    background-color: #1b2838;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #c7d5e0;
+}
+
+.details-container {
+    max-width: 100%;
+    margin: 2rem auto;
+    display: flex;
+    gap: 2rem;
+}
+
+.left-container {
+    flex: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.small-cover {
+    width: 200px;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    align-self: center;
+    box-shadow: 0 0 10px rgba(102, 192, 244, 0.6);
+}
+
+    .small-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.carousel-container {
+    flex: 1;
+    background-color: #2a475e;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.carousel-inner {
+    width: 100%;
+    height: 550px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+    .carousel-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+
+.right-container {
+    flex: 3;
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.right-container-base {
+    background-color: #2a475e;
+    flex: 3;
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.cover-right {
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(102, 192, 244, 0.6);
+}
+
+    .cover-right img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.product-meta {
+    font-size: 0.95rem;
+    color: #b8b6b4;
+    margin-top: 1rem;
+}
+
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn-buy, .btn-wishlist {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+    color: white;
+    text-align: center;
+    width: 450px;
+}
+
+.btn-buy {
+    background-color: #4c6b22;
+}
+
+    .btn-buy:hover {
+        background-color: #3e5418;
+    }
+
+.btn-wishlist {
+    background-color: #66c0f4;
+}
+
+    .btn-wishlist:hover {
+        background-color: #417a9b;
+    }
+
+.product-desc {
+    margin-top: 2rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #d6d7d8;
+}

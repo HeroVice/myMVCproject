@@ -7,8 +7,8 @@ using MyMVCProject.Models;
 
 namespace MyMVCProject.DataAccess.Repository.IRepository
 {
-    public interface IShoppingCartRepository : IRepository<ShoppingCart>
+    public interface IWishlistRepository : IRepository<Wishlist>
     {
-        void Update(ShoppingCart obj);
+        void Update(Wishlist obj);
     }
 }

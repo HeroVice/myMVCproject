@@ -114,6 +114,7 @@ namespace MyMVCProject.Areas.Customer.Controllers
             var claim = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
             var userId = claim.Value;
             var product = _unitOfWork.Product.GetProductWithCategory(productId);
+            var Item = _unitOfWork.Wishlist.Get(w => w.ProductId == productId && w.UserId == userId);
 
             if (product == null)
             {
@@ -126,7 +127,8 @@ namespace MyMVCProject.Areas.Customer.Controllers
                 ShoppingCart = new ShoppingCart(),
                 IsInBasket = false,
                 IsInLibrary = false,
-                ExistingReview = _unitOfWork.Review.Get(r => r.ProductId == productId && r.UserId == userId)
+                ExistingReview = _unitOfWork.Review.Get(r => r.ProductId == productId && r.UserId == userId),
+                ExistingWishlist = _unitOfWork.Wishlist.Get(w => w.ProductId == productId && w.UserId == userId)
             };
 
 

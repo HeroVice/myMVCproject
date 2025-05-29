@@ -16,6 +16,7 @@ namespace MyMVCProject.DataAccess.Repository.IRepository
         IOrderDetailRepository OrderDetail { get; }
         ILibraryRepository Library { get; }
         IReviewRepository Review { get; }
+        IWishlistRepository Wishlist { get; }
 
         void Save();
     }

@@ -19,6 +19,7 @@ namespace MyMVCProject.DataAccess.Repository
         public IOrderDetailRepository OrderDetail { get; private set; }
         public ILibraryRepository Library { get; private set; }
         public IReviewRepository Review { get; private set; }
+        public IWishlistRepository Wishlist { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -31,6 +32,7 @@ namespace MyMVCProject.DataAccess.Repository
             OrderDetail = new OrderDetailRepository(_db);
             Library = new LibraryRepository(_db);
             Review = new ReviewRepository(_db);
+            Wishlist = new WishlistRepository(_db);
         }
 
         public void Save()

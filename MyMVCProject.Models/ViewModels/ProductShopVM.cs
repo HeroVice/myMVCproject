@@ -13,6 +13,7 @@ namespace MyMVCProject.Models.ViewModels
         public bool IsInBasket { get; set; }
         public bool IsInLibrary { get; set; }
         public Review ExistingReview { get; set; }
+        public Wishlist ExistingWishlist { get; set; }
 
     }
 }
