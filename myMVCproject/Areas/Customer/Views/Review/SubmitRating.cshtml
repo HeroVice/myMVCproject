@@ -1,0 +1,18 @@
+﻿@if (Model.Product.Reviews != null && Model.Product.Reviews.Any())
+{
+    <div class="details-container">
+        <div class="left-container">
+            <h4>Yorumlar</h4>
+            @foreach (var review in Model.Product.Reviews)
+            {
+                <div style="background-color:#2a475e; padding:1rem; margin-bottom:1rem; border-radius:6px;">
+                    <strong>@review.User.UserName</strong> -
+                    <span>@string.Concat(Enumerable.Repeat("★", review.Rating))</span><br />
+                    <small>@review.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                    <p>@review.Content</p>
+                </div>
+            }
+        </div>
+    </div>
+}
+

@@ -48,7 +48,7 @@ namespace MyMVCProject.Areas.Customer.Controllers
             return View(productList);
         }
 
-        public IActionResult Catalog(int? categoryId, string publisher, decimal? minPrice, decimal? maxPrice, string? sortOrder, string searchTerm)
+        public IActionResult Catalog(int productId,int? categoryId, string publisher, decimal? minPrice, decimal? maxPrice, string? sortOrder, string searchTerm)
         {
             var products = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages").ToList();
 
@@ -109,6 +109,10 @@ namespace MyMVCProject.Areas.Customer.Controllers
 
         public IActionResult Details(int productId)
         {
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = claim.Value;
             var product = _unitOfWork.Product.GetProductWithCategory(productId);
 
             if (product == null)
@@ -121,17 +125,13 @@ namespace MyMVCProject.Areas.Customer.Controllers
                 Product = product,
                 ShoppingCart = new ShoppingCart(),
                 IsInBasket = false,
-                IsInLibrary = false
+                IsInLibrary = false,
+                ExistingReview = _unitOfWork.Review.Get(r => r.ProductId == productId && r.UserId == userId)
             };
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
 
             if (claim != null)
             {
-                var userId = claim.Value;
-
-                // Basket kontrolü (satın alım yapılmış mı?)
                 var basketEntry = _unitOfWork.ShoppingCart.Get(x => x.ProductId == productId && x.UserId == userId);
 
                 if (basketEntry != null)

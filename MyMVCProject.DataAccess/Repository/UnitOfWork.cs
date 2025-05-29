@@ -18,6 +18,7 @@ namespace MyMVCProject.DataAccess.Repository
         public ICompanyRepository Company { get; private set; }
         public IOrderDetailRepository OrderDetail { get; private set; }
         public ILibraryRepository Library { get; private set; }
+        public IReviewRepository Review { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -29,6 +30,7 @@ namespace MyMVCProject.DataAccess.Repository
             Company = new CompanyRepository(_db);
             OrderDetail = new OrderDetailRepository(_db);
             Library = new LibraryRepository(_db);
+            Review = new ReviewRepository(_db);
         }
 
         public void Save()

@@ -37,8 +37,6 @@ namespace MyMVCProject.Models
         [Range(0, 100)]
         public int? DiscountPercent { get; set; } // İndirim yüzdesi, nullable çünkü indirim olmayabilir
 
-        [Range(0, 5.0)]
-        public decimal? Rating { get; set; } // 0-5 arası puan, nullable olabilir
         [DisplayName("Cover Image")]
         public string CoverImageUrl { get; set; }
     }

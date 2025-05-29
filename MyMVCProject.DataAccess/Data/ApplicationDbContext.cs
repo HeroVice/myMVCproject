@@ -22,6 +22,7 @@ namespace MyMVCProject.DataAccess.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Library> Libraries { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

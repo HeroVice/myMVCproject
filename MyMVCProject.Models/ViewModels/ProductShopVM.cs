@@ -12,6 +12,7 @@ namespace MyMVCProject.Models.ViewModels
         public ShoppingCart ShoppingCart { get; set; }
         public bool IsInBasket { get; set; }
         public bool IsInLibrary { get; set; }
+        public Review ExistingReview { get; set; }
 
     }
 }
