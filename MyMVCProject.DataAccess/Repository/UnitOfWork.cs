@@ -17,6 +17,7 @@ namespace MyMVCProject.DataAccess.Repository
         public IShoppingCartRepository ShoppingCart { get; private set; }
         public ICompanyRepository Company { get; private set; }
         public IOrderDetailRepository OrderDetail { get; private set; }
+        public ILibraryRepository Library { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -27,6 +28,7 @@ namespace MyMVCProject.DataAccess.Repository
             ShoppingCart = new ShoppingCartRepository(_db);
             Company = new CompanyRepository(_db);
             OrderDetail = new OrderDetailRepository(_db);
+            Library = new LibraryRepository(_db);
         }
 
         public void Save()

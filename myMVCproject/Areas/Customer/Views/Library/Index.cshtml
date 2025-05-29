@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MyMVCProject.Models.Library>
+
+@{
+    ViewData["Title"] = "Library";
+}
+
+<h2>Kütüphanem</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Henüz kütüphanenize ürün eklenmemiş.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@item.Product.CoverImageUrl" class="card-img-top" alt="@item.Product.Name" />
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Product.Name</h5>
+                        <p class="card-text">@item.Product.Description</p>
+                        <a href="@Url.Action("Details", "Product", new { id = item.Product.Id })" class="btn btn-primary">Detaylar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using MyMVCProject.Models.ViewModels;
 using MyMVCProject.DataAccess.Data;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyMVCProject.Areas.Customer.Controllers
 {
@@ -35,7 +36,7 @@ namespace MyMVCProject.Areas.Customer.Controllers
                 {
                     //user is logged in
                     HttpContext.Session.SetInt32(SD.SessionCart,
-                        _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
+                        _unitOfWork.ShoppingCart.GetAll(u => u.UserId == claim.Value).Count());
                 }
                 catch
                 {
@@ -118,44 +119,36 @@ namespace MyMVCProject.Areas.Customer.Controllers
             var viewModel = new ProductShopVM
             {
                 Product = product,
-                ShoppingCart = new ShoppingCart()
+                ShoppingCart = new ShoppingCart(),
+                IsInBasket = false,
+                IsInLibrary = false
             };
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim != null)
+            {
+                var userId = claim.Value;
+
+                // Basket kontrolü (satın alım yapılmış mı?)
+                var basketEntry = _unitOfWork.ShoppingCart.Get(x => x.ProductId == productId && x.UserId == userId);
+
+                if (basketEntry != null)
+                {
+                    viewModel.IsInBasket = true;
+                }
+
+                var libraryEntry = _unitOfWork.Library.Get(x => x.ProductId == productId && x.UserId == userId);
+
+                if (libraryEntry != null)
+                {
+                    viewModel.IsInLibrary = true;
+                }
+            }
 
             return View(viewModel);
         }
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult Details(ShoppingCart shoppingCart)
-        {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            shoppingCart.ApplicationUserId = userId;
-
-            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId &&
-            u.ProductId == shoppingCart.ProductId);
-
-            if (cartFromDb != null)
-            {
-                //shopping cart exists
-                cartFromDb.Count += shoppingCart.Count;
-                _unitOfWork.ShoppingCart.Update(cartFromDb);
-            }
-            else
-            {
-                //add cart record
-                _unitOfWork.ShoppingCart.Add(shoppingCart);
-                _unitOfWork.Save();
-                HttpContext.Session.SetInt32(SD.SessionCart,
-                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
-            }
-
-            TempData["success"] = "Cart Updated Successfully";
-
-
-            return RedirectToAction(nameof(Index));
-        }
-
         public IActionResult Privacy()
         {
             return View();

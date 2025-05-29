@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MyMVCProject.Models.ShoppingCart>
+
+@{
+    ViewData["Title"] = "Sipariş Onayı";
+    decimal total = ViewBag.Total;
+}
+
+<h2>Alışveriş Özeti</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ürün</th>
+            <th>Fiyat</th>
+            <th>Adet</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>@item.Count</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2" class="text-end"><strong>Toplam:</strong></td>
+            <td><strong>@total.ToString("C")</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+<form asp-action="CheckoutPost" method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-success">Öde</button>
+</form>

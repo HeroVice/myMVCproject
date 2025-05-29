@@ -21,6 +21,7 @@ namespace MyMVCProject.DataAccess.Data
         public DbSet<CompanyRequest> CompanyRequests { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Library> Libraries { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

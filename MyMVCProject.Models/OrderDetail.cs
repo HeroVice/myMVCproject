@@ -12,12 +12,15 @@ namespace MyMVCProject.Models
     public class OrderDetail
     {
         public int Id { get; set; }
+        public string UserId { get; set; }
         public int OrderId { get; set; }
         [Required]
         public int ProductId { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         [ForeignKey("ProductId")]
         [ValidateNever]
         public Product Product { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string Status { get; set; } 
     }
 }

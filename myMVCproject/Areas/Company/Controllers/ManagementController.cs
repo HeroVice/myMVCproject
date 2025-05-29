@@ -4,10 +4,13 @@ using MyMVCProject.DataAccess.Repository.IRepository;
 using MyMVCProject.Models.ViewModels;
 using MyMVCProject.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using MyMVCProject.Utility;
 
 namespace MyMVCProject.Areas.Company.Controllers
 {
     [Area("Company")]
+    [Authorize(Roles = SD.Role_Company)]
     public class ManagementController : Controller
     {
 

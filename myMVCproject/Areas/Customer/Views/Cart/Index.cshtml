@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MyMVCProject.Models.ShoppingCart>
+
+@{
+    ViewData["Title"] = "Sepetim";
+    decimal total = 0;
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Sepetiniz</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Sepetinizde ürün bulunmamaktadır.</div>
+    }
+    else
+    {
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Ürün</th>
+                    <th>Fiyat</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    decimal itemTotal = item.Count * item.Price;
+                    total += itemTotal;
+
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="@item.Product.CoverImageUrl" alt="Kapak" width="80" height="80" class="me-3" />
+                                <span>@item.Product.Name</span>
+                            </div>
+                        </td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>
+                            <form asp-action="Remove" asp-route-id="@item.Id" method="post">
+                                <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="text-end"><strong>Toplam:</strong></td>
+                    <td colspan="2"><strong>@total.ToString("C")</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-end">
+            <a asp-area="Customer" asp-controller="Order" asp-action="Checkout" class="btn btn-success">Alışverişi Tamamla</a>
+        </div>
+    }
+</div>

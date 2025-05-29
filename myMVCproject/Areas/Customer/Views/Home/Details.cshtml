@@ -145,6 +145,7 @@
 		transition: background-color 0.3s ease;
 		color: white;
 		text-align: center;
+		width: 450px;
 	}
 
 	.btn-buy {
@@ -250,10 +251,37 @@
 				}
 			</div>
 			<div>
-				<button class="btn-buy" style="width:450px;" onclick="alert('Satın alma işlemi burada başlayacak!')">Satın Al</button>
+				@if (User.Identity.IsAuthenticated && Model.IsInLibrary)
+				{
+					<form asp-controller="Library" asp-action="Index" method="post">
+						<input type="hidden" name="productId" value="@Model.Product.Id" />
+						<button class="btn btn-secondary" style="width:450px;">In Library</button>
+					</form>
+				}
+				else if (User.Identity.IsAuthenticated && Model.IsInBasket)
+				{
+					<form asp-controller="Cart" asp-action="Index" method="post">
+						<input type="hidden" name="productId" value="@Model.Product.Id" />
+						<button class="btn btn-secondary" style="width:450px;">In Basket</button>
+					</form>
+				}
+				else
+				{
+					<form asp-controller="Cart" asp-action="AddToCart" method="post">
+						<input type="hidden" name="productId" value="@Model.Product.Id" />
+						<button type="submit" class="btn btn-buy">Purchase</button>
+					</form>
+				}
+
 			</div>
 		</div>
+	</div>
+	<div class="right-container">
+	</div>
+</div>
 
+<div class="details-container">
+	<div class="left-container">
 		<div class="product-desc">
 			<h4>Açıklama</h4>
 			<p>@Model.Product.Description</p>
