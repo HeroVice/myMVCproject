@@ -15,8 +15,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile("appsettings.product.json", optional: true, reloadOnChange: true); // Yeni dosyayý ekledik
+    .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
+    .AddJsonFile("appsettings.Product.json", optional: true, reloadOnChange: true); // Yeni dosyayý ekledik
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
