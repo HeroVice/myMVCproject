@@ -48,6 +48,26 @@ namespace MyMVCProject.Areas.Company.Controllers
             return View(objProductList);
         }
 
+
+        [HttpPost]
+        public IActionResult ApplyDiscount(int productId, int discountPercent)
+        {
+            var product = _unitOfWork.Product.Get(p => p.Id == productId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            product.DiscountPercent = discountPercent;
+            _unitOfWork.Product.Update(product);
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index"); // veya bulunduğun sayfaya yönlendir
+        }
+
+
+
         public IActionResult Upsert(int? id)
         {
             ProductVM productVM = new()
@@ -189,24 +209,6 @@ namespace MyMVCProject.Areas.Company.Controllers
                 return View(productVM);
             }
         }
-
-        [HttpPost]
-        public IActionResult ApplyDiscount(int productId, int discountPercent)
-        {
-            var product = _unitOfWork.Product.Get(p => p.Id == productId);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            product.DiscountPercent = discountPercent;
-            _unitOfWork.Product.Update(product);
-            _unitOfWork.Save();
-
-            return RedirectToAction("Index"); // veya bulunduğun sayfaya yönlendir
-        }
-
 
         [HttpPost]
         public IActionResult DeleteCover(int productId)
